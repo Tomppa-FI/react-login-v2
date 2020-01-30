@@ -1,0 +1,5 @@
+/app/node_modules
+/api/node_modules
+/api/config/
+/api/config/config.json
+/api/ssl/
