@@ -5,6 +5,7 @@ function Navbar() {
     return (
         <div className="Navbar-container">
             <nav className="Navbar">
+                <Link to="/register">Sign Up</Link>
                 <Link to="/login">Log In</Link>
             </nav>
         </div>

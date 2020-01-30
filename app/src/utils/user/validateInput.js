@@ -1,53 +1,71 @@
-import {isUsernameTaken} from "../Client";
+import { isUsernameTaken } from "../api/Client";
 
 const usernameRegex = new RegExp(/^\w{4,12}$/);
 const passwordRegex = new RegExp(/^(?=.*[A-Z])[A-Za-z0-9!£$%^&*()_+-=[\]{}:@~#,./\\]{8,}$/);
 
 export default async (currentState, name, value) => {
-    const errors = {...currentState.errors};
+    let newErrors;
+
     switch (name) {
-        case "username": 
+        case "username":
             if (usernameRegex.test(value)) {
-                let apiRequest = await isUsernameTaken(value);
-                if (apiRequest.isTaken) {
-                    errors.username = {
-                        message: apiRequest.error
-                    };
-                } else {
-                    if (errors.username) {
-                        delete errors.username;
+                let response = await isUsernameTaken(value);
+                if (response.status === 200) {
+                    newErrors = Object.assign({}, currentState.errors);
+                    if (newErrors.username) {
+                        delete newErrors.username;
                     }
+                } else if (response.status === 409) {
+                    newErrors = Object.assign({}, currentState.errors, {
+                        username: {
+                            message: "This username is already taken."
+                        }
+                    })
+                } else { //API Error.
+                    newErrors = Object.assign({}, currentState.errors, {
+                        username: {
+                            message: response.json().error
+                        }
+                    })
                 }
             } else {
-                errors.username = {
-                    message: "Username must be between 4-12 Characters and contain no spaces or symbols."
-                }
+                newErrors = Object.assign({}, currentState.errors, {
+                    username: {
+                        message: "Your username must be between 4-12 characters, with no spacing or symbols."
+                    }
+                })
             }
             break;
         case "password": 
             if (passwordRegex.test(value)) {
-                if (errors.password) {
-                    delete errors.password;
+                newErrors = Object.assign({}, currentState.errors);
+                if (newErrors.password) {
+                    delete newErrors.password;
                 }
             } else {
-                errors.password = {
-                    message: "Password must be at least 8 characters, with 1 uppercase and no spaces."
-                }
+                newErrors = Object.assign({}, currentState.errors, {
+                    password: {
+                        message: "Your password must be at least 8 characters, with 1 uppercase and no spaces."
+                    }
+                })
             }
             break;
         case "confirmPassword": 
             if (value === currentState.password) {
-                if (errors.confirmPassword) {
-                    delete errors.confirmPassword;
+                newErrors = Object.assign({}, currentState.errors);
+                if (newErrors.confirmPassword) {
+                    delete newErrors.confirmPassword;
                 }
             } else {
-                errors.confirmPassword = {
-                    message: "Your passwords do not match."
-                }
+                newErrors = Object.assign({}, currentState.errors, {
+                    confirmPassword: {
+                        message: "Passwords do not match."
+                    }
+                })
             }
             break;
         default: 
             break;
     }
-    return errors;
+    return newErrors;
 }

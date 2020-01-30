@@ -6,6 +6,7 @@ import {BrowserRouter as Router,
 import Navbar from "./components/Navbar";
 import './App.css';
 import RegisterForm from './components/RegisterForm';
+import LoginForm from "./components/LoginForm";
 
 class App extends React.Component {
     constructor() {
@@ -27,6 +28,9 @@ class App extends React.Component {
                     <Switch>
                         <Route path="/register">
                             <RegisterForm />
+                        </Route>
+                        <Route path="/login">
+                            <LoginForm />
                         </Route>
                     </Switch>
                 </Router>

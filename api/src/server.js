@@ -25,39 +25,49 @@ app.use(Express.json());
 
 const mongoClient = mongoose.connect("mongodb://localhost:27017/reactlobby", mongoOpts);
 
-app.get("/api/user", (req, res) => {
+app.get("/api/users/username", (req, res) => {
     const param = req.query.q;
     if (!param) {
-        res.status(400).json({error: "Missing query parameter"});
+        return res.status(400).json({error: "Missing query parameter"});
     } else {
         User.findOne({username: param}, (err, doc) => {
             if (err) {
-                throw err;
+                return res.json({error: err});
             } else {
                 if (doc) {
-                    return res.status(409).json({isTaken: true, error: "Username is already taken."})
+                    return res.status(409).json()
                 } else {
-                    return res.status(200).json({isTaken: false})
+                    return res.status(200).json()
                 }
             }
         })
     }
 })
 
-app.post("/api/user", (req, res) => {
-    console.log(req.body);
-    User.create({
-        username: req.body.username,
-        hash: bcrypt.hashSync(req.body.hash, SALT)
-    }, (err, doc) => {
-        if (err) {
-            res.status(422).json({success: false, error: err}) //For troubleshooting. Remove in post.
-        } else {
-            if (doc) {
-                res.status(200).json({success: true})
+app.post("/api/users", (req, res) => {
+    try {
+        User.findOne({username : req.body.username}, (err, doc) => {
+            if (err) {
+                throw err;
             }
-        }
-    })
+            if (doc) {
+                return res.status(409).json({error: "Username already taken."});
+            } else {
+                User.create({
+                    username: req.body.username,
+                    hash: bcrypt.hashSync(req.body.hash, SALT)
+                }, (err, doc) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        return res.status(200).json();
+                    }
+                })
+            }
+        })
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
 })
 
 

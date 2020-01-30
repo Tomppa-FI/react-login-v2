@@ -1,7 +1,7 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
 import validateInput from "../utils/user/validateInput";
-import registerUser from "../utils/user/registerUser";
+import { registerUser } from "../utils/api/Client";
 
 class RegisterForm extends React.Component {
     constructor() {
@@ -47,26 +47,23 @@ class RegisterForm extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
         if (Object.keys(this.state.errors).length === 0) {
-
-            registerUser(this.state.username, this.state.password).then((apiResult) => {
-                if (apiResult.success) {
-                    this.setState(Object.assign({}, this.state, {
-                        statusMsg: "Registration successful. You will be redirected in 5 seconds."
-                    }), () => {
-                        setTimeout(() => {
-                            this.props.history.push("/");
-                        }, 5000)
+            registerUser(this.state.username, this.state.password).then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        statusMsg: "Registration successful! You will be redirected in 5 seconds."
+                    }, () => {
+                        setTimeout(() => this.props.history.push("/login"), 5000);
                     })
                 } else {
-                    this.setState(Object.assign({}, this.state, {
-                        statusMsg: apiResult.error
-                    }))
+                    this.setState({
+                        statusMsg: response.json().error
+                    })
                 }
             })
         } else {
-            this.setState(Object.assign({}, this.state, {
-                statusMsg: "Error submitting form. Please check all fields are completed."
-            }))
+            this.setState({
+                statusMsg: "Error submitting form. Please check fields above are filled out correctly."
+            })
         }
     }
 
@@ -74,11 +71,11 @@ class RegisterForm extends React.Component {
         const name = event.target.name;
         const value = event.target.value;
         if (this.state[name] !== value) {
-            validateInput(this.state, name, value).then((errors) => {
+            validateInput(this.state, name, value).then((newErrors) => {
                 this.setState({
                     [name]: value,
-                    errors: errors
-                });
+                    errors: newErrors
+                })
             })
         }
     }
