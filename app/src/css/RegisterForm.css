@@ -1,0 +1,11 @@
+.RegisterForm-container {
+    margin-top: 7%;
+}
+
+.RegisterForm-inputContainer {
+    margin: 2% 0;
+}
+
+.RegisterForm-errorMsg {
+    font-size: 0.8em;
+}

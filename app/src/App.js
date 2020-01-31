@@ -4,7 +4,7 @@ import {BrowserRouter as Router,
         Switch} from "react-router-dom";
 import jwt from "jsonwebtoken";
 import Navbar from "./components/Navbar";
-import './App.css';
+import './css/App.css';
 import RegisterForm from './components/RegisterForm';
 import LoginForm from "./components/LoginForm";
 

@@ -1,18 +1,19 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import "../css/Navbar.css";
 
 class Navbar extends React.Component {
 
     render() {
         let navItems = this.props.user ? 
         <>
-        <p>Hello, {this.props.user.username}</p>
-        <button onClick={() => {this.props.toggleChange(false)}}>Sign Out</button>
+        <p className="Navbar-item">Hello, {this.props.user.username}</p>
+        <button className="Navbar-item" onClick={() => {this.props.toggleChange(false)}}>Sign Out</button>
         </>
         : 
         <>
-        <Link to="/register">Sign Up</Link>
-        <Link to="/login">Log In</Link>
+        <Link className="Navbar-item" to="/register">Sign Up</Link>
+        <Link className="Navbar-item" to="/login">Log In</Link>
         </>;
         return (
             <div className="Navbar-container">

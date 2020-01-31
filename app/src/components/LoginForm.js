@@ -1,6 +1,7 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
 import { loginUser } from "../utils/api/Client";
+import "../css/LoginForm.css";
 class LoginForm extends React.Component {
     constructor() {
         super();
@@ -16,11 +17,11 @@ class LoginForm extends React.Component {
                 <form className="LoginForm" onSubmit={this.handleSubmit}>
                     {this.state.statusMsg && <p className="LoginForm-statusMsg">{this.state.statusMsg}</p>}
                     <div className="LoginForm-inputContainer">
-                        <input type="text" className="LoginForm-usernameInput" name="username" onChange={this.handleChange} required/>
+                        <input type="text" className="LoginForm-usernameInput" name="username" onChange={this.handleChange} placeholder="Username" required/>
                     </div>
 
                     <div className="LoginForm-inputContainer">
-                        <input type="password" className="LoginForm-passwordInput" name="password" onChange={this.handleChange} required/>
+                        <input type="password" className="LoginForm-passwordInput" name="password" onChange={this.handleChange} placeholder="Password" required/>
                     </div>
 
                     <div className="LoginForm-inputContainer">

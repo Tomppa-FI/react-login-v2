@@ -2,6 +2,7 @@ import React from "react";
 import {withRouter} from "react-router-dom";
 import validateInput from "../utils/user/validateInput";
 import { registerUser } from "../utils/api/Client";
+import "../css/RegisterForm.css";
 
 class RegisterForm extends React.Component {
     constructor() {
@@ -21,23 +22,22 @@ class RegisterForm extends React.Component {
                 <form className="RegisterForm" onSubmit={this.handleSubmit}>
                     {this.state.statusMsg && <p className="RegisterForm-statusMsg">{this.state.statusMsg}</p>}
                     <div className="RegisterForm-inputContainer">
-                        <input type="text" className="RegisterForm-usernameInput" name="username" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.username && <p className="RegisterForm-errorMsg">{this.state.errors.username.message}</p>}
+                        <input type="text" className="RegisterForm-=input" name="username" onChange={this.handleChange} onBlur={this.handleBlur} placeholder="Username" required/>
                     </div>
 
                     <div className="RegisterForm-inputContainer">
-                        <input type="password" className="RegisterForm-passwordInput" name="password" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.password && <p className="RegisterForm-errorMsg">{this.state.errors.password.message}</p>}
-
+                        <input type="password" className="RegisterForm-input" name="password" onChange={this.handleChange} onBlur={this.handleBlur} placeholder="Password" required/>
                     </div>
 
                     <div className="RegisterForm-inputContainer">
-                        <input type="password" className="RegisterForm-passwordInput" name="confirmPassword" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.confirmPassword && <p className="RegisterForm-errorMsg">{this.state.errors.confirmPassword.message}</p>}
+                        <input type="password" className="RegisterForm-input" name="confirmPassword" onChange={this.handleChange} onBlur={this.handleBlur} placeholder="Repeat password" required/>
                     </div>
 
                     <div className="RegisterForm-inputContainer">
-                        <input type="submit"/>
+                        <input classname="RegisterForm-submitBtn" type="submit"/>
                     </div>
                 </form>
             </div>

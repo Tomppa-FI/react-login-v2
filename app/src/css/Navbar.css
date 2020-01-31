@@ -1,0 +1,16 @@
+.Navbar-container {
+    height: 8vh;
+    background-color: rgba(106, 178, 226, 0.8);
+}
+
+.Navbar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Navbar-item {
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+}

@@ -1,0 +1,11 @@
+.LoginForm-container {
+    margin-top: 7%;
+}
+
+.LoginForm-inputContainer {
+    margin: 2% 0;
+}
+
+.LoginForm-errorMsg {
+    font-size: 0.8em;
+}
