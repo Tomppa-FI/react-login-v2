@@ -21,18 +21,18 @@ class RegisterForm extends React.Component {
                 <form className="RegisterForm" onSubmit={this.handleSubmit}>
                     {this.state.statusMsg && <p className="RegisterForm-statusMsg">{this.state.statusMsg}</p>}
                     <div className="RegisterForm-inputContainer">
-                        <input type="text" className="RegisterForm-usernameInput" name="username" onBlur={this.handleBlur} required/>
+                        <input type="text" className="RegisterForm-usernameInput" name="username" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.username && <p className="RegisterForm-errorMsg">{this.state.errors.username.message}</p>}
                     </div>
 
                     <div className="RegisterForm-inputContainer">
-                        <input type="password" className="RegisterForm-passwordInput" name="password" onBlur={this.handleBlur} required/>
+                        <input type="password" className="RegisterForm-passwordInput" name="password" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.password && <p className="RegisterForm-errorMsg">{this.state.errors.password.message}</p>}
 
                     </div>
 
                     <div className="RegisterForm-inputContainer">
-                        <input type="password" className="RegisterForm-passwordInput" name="confirmPassword" onBlur={this.handleBlur} required/>
+                        <input type="password" className="RegisterForm-passwordInput" name="confirmPassword" onChange={this.handleChange} onBlur={this.handleBlur} required/>
                         {this.state.errors.confirmPassword && <p className="RegisterForm-errorMsg">{this.state.errors.confirmPassword.message}</p>}
                     </div>
 
