@@ -55,8 +55,8 @@ class RegisterForm extends React.Component {
                         setTimeout(() => this.props.history.push("/login"), 5000);
                     })
                 } else {
-                    this.setState({
-                        statusMsg: response.json().error
+                    response.json().then((data) => {
+                        this.setState({statusMsg: data.error});
                     })
                 }
             })
@@ -67,17 +67,20 @@ class RegisterForm extends React.Component {
         }
     }
 
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
     handleBlur = event => {
         const name = event.target.name;
         const value = event.target.value;
-        if (this.state[name] !== value) {
-            validateInput(this.state, name, value).then((newErrors) => {
-                this.setState({
-                    [name]: value,
-                    errors: newErrors
-                })
+        validateInput(this.state, name, value).then((newErrors) => {
+            this.setState({
+                errors: newErrors
             })
-        }
+        })
     }
 }
 

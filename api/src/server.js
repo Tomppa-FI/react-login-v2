@@ -2,8 +2,10 @@ import Express from "express";
 import mongoose from "mongoose"
 import https from "https";
 import fs from "fs";
-import User from "./models/User.js";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import User from "./models/User.js";
+const PRIVATEKEY = JSON.parse(fs.readFileSync("./config/config.json")).privateKey;
 const HOST = JSON.parse(fs.readFileSync("./config/config.json")).host;
 const PORT = JSON.parse(fs.readFileSync("./config/config.json")).port;
 const SALT = JSON.parse(fs.readFileSync("./config/config.json")).salt;
@@ -63,6 +65,31 @@ app.post("/api/users", (req, res) => {
                         return res.status(200).json();
                     }
                 })
+            }
+        })
+    } catch (err) {
+        res.status(500).json({error: err});
+    }
+})
+
+app.post("/api/users/login", (req, res) => {
+    try {
+        User.findOne({
+            username: req.body.username,
+            hash: bcrypt.hashSync(req.body.hash, SALT)
+        }, (err, doc) => {
+            if (err) {
+                throw err;
+            } else {
+                if (doc) {
+                    const token = jwt.sign({
+                        id: doc.id,
+                        username: doc.username
+                    }, PRIVATEKEY, { expiresIn: "2days"})
+                    res.status(200).json({token: token});
+                } else {
+                    res.status(403).json({error: "Invalid username or password"});
+                }
             }
         })
     } catch (err) {
