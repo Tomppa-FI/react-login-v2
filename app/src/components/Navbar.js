@@ -8,7 +8,7 @@ class Navbar extends React.Component {
         let navItems = this.props.user ? 
         <>
         <p className="Navbar-item">Hello, {this.props.user.username}</p>
-        <button className="Navbar-item" onClick={() => {this.props.toggleChange(false)}}>Sign Out</button>
+        <span className="Navbar-btn" onClick={() => {this.props.toggleChange(false)}}>Sign Out</span>
         </>
         : 
         <>
